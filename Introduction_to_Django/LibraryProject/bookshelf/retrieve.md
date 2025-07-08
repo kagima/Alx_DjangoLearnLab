@@ -2,7 +2,7 @@
 
 <!-- Command to retrieve all books: -->
 ```python
-books = Book.objects.all()
+books = Book.objects.get()
 books
 
 # Expected output:
