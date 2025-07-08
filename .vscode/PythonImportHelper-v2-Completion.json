@@ -1,5 +1,69 @@
 [
     {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
@@ -25,14 +89,6 @@
         "documentation": {}
     },
     {
-        "label": "admin",
-        "importPath": "django.contrib",
-        "description": "django.contrib",
-        "isExtraImport": true,
-        "detail": "django.contrib",
-        "documentation": {}
-    },
-    {
         "label": "path",
         "importPath": "django.urls",
         "description": "django.urls",
@@ -55,6 +111,33 @@
         "importPath": "sys",
         "description": "sys",
         "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "Introduction_to_Django.LibraryProject.bookshelf.migrations.0001_initial",
+        "description": "Introduction_to_Django.LibraryProject.bookshelf.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = []\n    operations = [\n        migrations.CreateModel(\n            name=\"Book\",\n            fields=[\n                (\n                    \"id\",\n                    models.BigAutoField(",
+        "detail": "Introduction_to_Django.LibraryProject.bookshelf.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "BookshelfConfig",
+        "kind": 6,
+        "importPath": "Introduction_to_Django.LibraryProject.bookshelf.apps",
+        "description": "Introduction_to_Django.LibraryProject.bookshelf.apps",
+        "peekOfCode": "class BookshelfConfig(AppConfig):\n    default_auto_field = \"django.db.models.BigAutoField\"\n    name = \"bookshelf\"",
+        "detail": "Introduction_to_Django.LibraryProject.bookshelf.apps",
+        "documentation": {}
+    },
+    {
+        "label": "Book",
+        "kind": 6,
+        "importPath": "Introduction_to_Django.LibraryProject.bookshelf.models",
+        "description": "Introduction_to_Django.LibraryProject.bookshelf.models",
+        "peekOfCode": "class Book(models.Model):\n    title = models.CharField(max_length=200)\n    author = models.CharField(max_length=100)\n    publication_year = models.IntegerField()\n    def __str__(self):\n        return self.title",
+        "detail": "Introduction_to_Django.LibraryProject.bookshelf.models",
         "documentation": {}
     },
     {
@@ -98,7 +181,7 @@
         "kind": 5,
         "importPath": "Introduction_to_Django.LibraryProject.LibraryProject.settings",
         "description": "Introduction_to_Django.LibraryProject.LibraryProject.settings",
-        "peekOfCode": "ALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    \"django.contrib.admin\",\n    \"django.contrib.auth\",\n    \"django.contrib.contenttypes\",\n    \"django.contrib.sessions\",\n    \"django.contrib.messages\",\n    \"django.contrib.staticfiles\",\n]",
+        "peekOfCode": "ALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    \"django.contrib.admin\",\n    \"django.contrib.auth\",\n    \"django.contrib.contenttypes\",\n    \"django.contrib.sessions\",\n    \"django.contrib.messages\",\n    \"django.contrib.staticfiles\",\n    \"bookshelf\", ",
         "detail": "Introduction_to_Django.LibraryProject.LibraryProject.settings",
         "documentation": {}
     },
@@ -107,7 +190,7 @@
         "kind": 5,
         "importPath": "Introduction_to_Django.LibraryProject.LibraryProject.settings",
         "description": "Introduction_to_Django.LibraryProject.LibraryProject.settings",
-        "peekOfCode": "INSTALLED_APPS = [\n    \"django.contrib.admin\",\n    \"django.contrib.auth\",\n    \"django.contrib.contenttypes\",\n    \"django.contrib.sessions\",\n    \"django.contrib.messages\",\n    \"django.contrib.staticfiles\",\n]\nMIDDLEWARE = [\n    \"django.middleware.security.SecurityMiddleware\",",
+        "peekOfCode": "INSTALLED_APPS = [\n    \"django.contrib.admin\",\n    \"django.contrib.auth\",\n    \"django.contrib.contenttypes\",\n    \"django.contrib.sessions\",\n    \"django.contrib.messages\",\n    \"django.contrib.staticfiles\",\n    \"bookshelf\", \n]\nMIDDLEWARE = [",
         "detail": "Introduction_to_Django.LibraryProject.LibraryProject.settings",
         "documentation": {}
     },
