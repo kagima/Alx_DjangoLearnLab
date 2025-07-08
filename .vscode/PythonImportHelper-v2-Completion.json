@@ -123,6 +123,15 @@
         "documentation": {}
     },
     {
+        "label": "BookAdmin",
+        "kind": 6,
+        "importPath": "Introduction_to_Django.LibraryProject.bookshelf.admin",
+        "description": "Introduction_to_Django.LibraryProject.bookshelf.admin",
+        "peekOfCode": "class BookAdmin(admin.ModelAdmin):\n    # Fields to display in the list view\n    list_display = ('title', 'author', 'publication_year')\n    # Fields to search in the admin interface\n    search_fields = ('title', 'author')\n    # Fields to filter by in the admin interface\n    list_filter = ('publication_year',)\n# Register the Book model with the admin interface\nadmin.site.register(Book, BookAdmin)",
+        "detail": "Introduction_to_Django.LibraryProject.bookshelf.admin",
+        "documentation": {}
+    },
+    {
         "label": "BookshelfConfig",
         "kind": 6,
         "importPath": "Introduction_to_Django.LibraryProject.bookshelf.apps",
