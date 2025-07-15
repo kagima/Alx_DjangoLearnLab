@@ -14,3 +14,11 @@ class Book(models.Model):
     
     def __str__(self):
         return self.title 
+    
+# Library model
+class Library(models.Model):
+    name = models.CharField(max_length=255)
+    books = models.ManyToManyField(Book, related_name='libraries')
+    
+    def __str__(self):
+        return self.name    
