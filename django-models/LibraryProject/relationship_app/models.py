@@ -21,4 +21,11 @@ class Library(models.Model):
     books = models.ManyToManyField(Book, related_name='libraries')
     
     def __str__(self):
-        return self.name    
+        return self.name
+    
+class Librarian(models.Model):
+    name = models.CharField(max_length=255)
+    library = models.ForeignKey(Library, on_delete=models.CASCADE, related_name='librarians')
+    
+    def __str__(self):
+        return self.name
