@@ -29,7 +29,7 @@ def register(request):
             return redirect('login')
     else:
         form = UserCreationForm()
-    return render(request, 'application_app/register.html', {'form': form})
+    return render(request, 'relationship_app/register.html', {'form': form})
 
 
 # Function to handle user login
@@ -42,8 +42,8 @@ def user_login(request):
             login(request, user)
             return redirect('list_books')
         else:
-            return render(request, 'application_app/login.html', {'error': 'Invalid credentials'})
-    return render(request, 'application_app/login.html')
+            return render(request, 'relationship_app/login.html', {'error': 'Invalid credentials'})
+    return render(request, 'relationship_app/login.html')
 
 # Function to handle user logout
 @login_required
