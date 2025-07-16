@@ -44,4 +44,10 @@ def user_login(request):
         else:
             return render(request, 'application_app/login.html', {'error': 'Invalid credentials'})
     return render(request, 'application_app/login.html')
+
+# Function to handle user logout
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect('application_app/login.html')
              
