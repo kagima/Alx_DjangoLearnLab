@@ -67,3 +67,20 @@ def is_librarian(user):
 # Function to check if user is a member
 def is_member(user):
     return user.profile.roles == 'Member'
+
+
+# Views for role-based access control
+# Admin view, accessible only by Admin users
+@user_passes_test(is_admin)
+def admin_view(request):
+    return render(request, 'relationship_app/admin_view.html')
+
+# Librarian view, accessible only by Librarian users
+@user_passes_test(is_librarian)
+def librarian_view(request):
+    return render(request, 'relationship_app/librarian_view.html')
+
+# Member view, accessible only by Member users
+@user_passes_test(is_member)
+def member_view(request):
+    return render(request, 'relationship_app/member_view.html')
