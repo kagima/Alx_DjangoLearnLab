@@ -5,6 +5,8 @@ from .models import Library
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
+from .models import UserProfile
 
 # Function to list all books
 def list_books(request):
@@ -53,4 +55,15 @@ def user_logout(request):
 
 
 
-             
+# Role Based Access Control
+# Function to check if user is an admin
+def is_admin(user):
+    return user.profile.roles == 'Admin'
+
+# Function to check if user is a librarian
+def is_librarian(user):
+    return user.profile.roles == 'Librarian'  
+
+# Function to check if user is a member
+def is_member(user):
+    return user.profile.roles == 'Member'
