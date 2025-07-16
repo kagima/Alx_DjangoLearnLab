@@ -6,11 +6,11 @@ from .models import Book, Library
 def list_books(request):
     # Fetch all books from the database
     books = Book.objects.all()
-    return render(request, 'relationship/list_books.html', {'book': books})
+    return render(request, 'relationship_app/list_books.html', {'book': books})
 
 
 # class-based view to display details for a specific library
 class LibraryDetailView(DetailView):
     model = Library
-    template_name = 'relationship/library_detail.html'
+    template_name = 'relationship_app/library_detail.html'
     context_object_name = 'library'
