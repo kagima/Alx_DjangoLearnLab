@@ -5,6 +5,17 @@ from django.shortcuts import redirect
 from .models import BlogPost
 from .forms import BlogPostForm
 from django.contrib import messages
+from .models import Book
+
+# View to display a list of all books
+def book_list(request):
+    books = Book.objects.all()
+    return render(request, 'bookshelf/book_list.html', {'books': books})
+
+# View to display details of a single book
+def book_detail(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    return render(request, 'bookshelf/book_detail.html', {'book': book})
 
 # View to create a new blog post
 @permission_required('blog.can_create', raise_exception=True)
