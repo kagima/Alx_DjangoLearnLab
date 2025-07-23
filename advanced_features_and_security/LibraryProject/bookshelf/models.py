@@ -49,3 +49,20 @@ class CustomUser(AbstractUser):
     
     objects = CustomUserManager() 
     
+    
+class BlogPost(models.Model):    
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        permissions = [
+            ("can_view", "Can view blog post"),
+            ("can_create", "Can create blog post"),
+            ("can_edit", "Can edit blog post"),
+            ("can_delete", "Can delete blog post"),
+        ]
+        
+    def __str__(self):
+        return self.title    
