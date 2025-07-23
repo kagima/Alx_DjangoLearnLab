@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 # Author model
 class Author(models.Model):
@@ -49,7 +49,7 @@ ROLE_CHOICES = [
    
 # User profile model to store user roles
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     roles = models.CharField(max_length=255, choices=ROLE_CHOICES) 
     
     def __str__(self):
