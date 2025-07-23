@@ -34,5 +34,7 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('username',) 
     
 # Register the Book model with the admin interface
-admin.site.register(Book, BookAdmin, CustomUserAdmin, CustomUser) 
+admin.site.register(Book, BookAdmin)
+# Register the CustomUser model with the admin interface
+admin.site.register(CustomUser, CustomUserAdmin) 
 
