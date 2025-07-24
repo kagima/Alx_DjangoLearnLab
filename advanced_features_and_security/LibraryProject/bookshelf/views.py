@@ -9,6 +9,7 @@ from .models import Book
 from django.http import HttpResponse
 from .forms import BookForm
 from django.core.paginator import Paginator
+from .forms import ExampleForm
 
 # View to display a form to demonstrate security features
 def my_view(request):
