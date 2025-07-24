@@ -23,12 +23,40 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-y%s+gos(gj_+0&qu$7d$9_bhp*r20-o2es^e)=hya%j!16g8vt"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["domainexample.com"]
 
 # Custom User Model configuration
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
+
+# Security settings
+# Enable XSS filtering in browsers
+SECURE_BROWSER_XSS_FILTER = True
+
+# Protect the site against clickjacking attacks
+X_FRAME_OPTIONS = 'DENY'
+
+# Prevent browsers from sniffing content types
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Ensures CSRF cookie is sent only over HTTPS
+CSRF_COOKIE_SECURE = True
+
+# Ensures session cookie is sent only over HTTPS
+SESSION_COOKIE_SECURE = True
+
+# Redirect HTTP to HTTPS
+SECURE_SSL_REDIRECT = True
+
+# Enable HTTP Strict Transport Security (HSTS)
+SECURE_HSTS_SECONDS = 31536000 
+
+# Apply HSTS to all subdomains
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+# Allow browsers to preload HSTS
+SECURE_HSTS_PRELOAD = True
 
 
 # Application definition
