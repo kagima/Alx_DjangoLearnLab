@@ -35,6 +35,9 @@ AUTH_USER_MODEL = 'bookshelf.CustomUser'
 # Enable XSS filtering in browsers
 SECURE_BROWSER_XSS_FILTER = True
 
+# Set the proxy SSL header to trust the forwarded protocol
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Protect the site against clickjacking attacks
 X_FRAME_OPTIONS = 'DENY'
 
