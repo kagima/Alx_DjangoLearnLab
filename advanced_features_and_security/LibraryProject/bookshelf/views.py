@@ -6,14 +6,39 @@ from .models import BlogPost
 from .forms import BlogPostForm
 from django.contrib import messages
 from .models import Book
+from django.http import HttpResponse
+from .forms import BookForm
+from django.core.paginator import Paginator
+
+# View to display a form to demonstrate security features
+def my_view(request):
+    if request.method == 'POST':
+        # Use Django forms for validation and security
+        form = BookForm(request.POST)
+        if form.is_valid():
+            # Safe to process the data, as it's validated
+            form.save()  # Assuming BookForm is tied to a Book model
+            return HttpResponse('Form submitted successfully!')
+        else:
+            return HttpResponse('Form is not valid')
+    else:
+        form = BookForm()  # Empty form when GET request
+    return render(request, 'form_example.html', {'form': form})
 
 # View to display a list of all books
 def book_list(request):
     books = Book.objects.all()
-    return render(request, 'bookshelf/book_list.html', {'books': books})
+    
+    # Paginate results
+    paginator = Paginator(books, 10)  # Show 10 books per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'bookshelf/book_list.html', {'page_obj': page_obj})
 
 # View to display details of a single book
 def book_detail(request, pk):
+    # Use get_object_or_404 to avoid SQL injection and ensure the book exists
     book = get_object_or_404(Book, pk=pk)
     return render(request, 'bookshelf/book_detail.html', {'book': book})
 

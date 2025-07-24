@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-y%s+gos(gj_+0&qu$7d$9_bhp*r20-o2es^e)=hya%j!16g8vt"
 
+# Setting DEBUG to False to prevent exposing sensitive information in production
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -80,7 +81,21 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "csp.middleware.CSPMiddleware",
 ]
+
+# CSP settings
+# Restrict sources for loading resources to your own domain
+CSP_DEFAULT_SRC = ("'self'",)
+
+ # Allow scripts from your domain and Google APIs
+CSP_SCRIPT_SRC = ("'self'", "https://apis.google.com")
+
+ # Allow styles from your domain and Google Fonts
+CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")
+
+# Allow fonts from Google
+CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com")
 
 ROOT_URLCONF = "LibraryProject.urls"
 
