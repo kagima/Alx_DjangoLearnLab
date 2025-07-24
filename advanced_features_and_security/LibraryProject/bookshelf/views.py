@@ -23,7 +23,7 @@ def my_view(request):
             return HttpResponse('Form is not valid')
     else:
         form = BookForm()  # Empty form when GET request
-    return render(request, 'form_example.html', {'form': form})
+    return render(request, 'bookshelf/form_example.html', {'form': form})
 
 # View to display a list of all books
 def book_list(request):
