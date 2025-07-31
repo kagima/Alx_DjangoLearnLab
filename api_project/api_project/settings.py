@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',  # Django REST Framework
     'rest_authtoken',  # Django REST Framework Token Authentication
+    'rest_framework.authtoken',  # Token authentication support
     'api',  # Your API app
 ]
 
