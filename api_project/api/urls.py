@@ -5,7 +5,7 @@ from .views import BookViewSet
 
 # Router and registration for the BookViewSet
 router = DefaultRouter()
-router.register(r'books_all', BookViewSet, basename='book')
+router.register(r'books_all', BookViewSet, basename='book_all')
 
 urlpatterns = [
     path('books/', BookList.as_view(), name='book-list'),  # URL for listing books
