@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',  # Django REST Framework
     'rest_authtoken',  # Django REST Framework Token Authentication
     'rest_framework.authtoken',  # Token authentication support
+    'rest_framework_simplejwt',  # JWT authentication support
     'api',  # Your API app
 ]
 

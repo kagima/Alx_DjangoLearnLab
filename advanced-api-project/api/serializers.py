@@ -14,7 +14,7 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ['id', 'title', 'publication_year', 'author']
         
-    def validate_publication_year(self, value):
+    def validate_publication_year(self, value: int):
         """
             Field-level validation for publication_year.
             Ensures the year is <= current calendar year (no future publications).
