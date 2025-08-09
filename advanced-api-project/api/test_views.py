@@ -65,9 +65,9 @@ class BookAPITests(APITestCase):
 
     def test_detail_book_public(self):
         url = reverse("book-detail", kwargs={"pk": self.book1.pk})
-        resp = self.client.get(url)
-        self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        data = resp.json()
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.data  # <- use DRF's parsed data
         self.assertEqual(data["id"], self.book1.id)
         self.assertEqual(data["title"], "Beloved")
         self.assertEqual(data["publication_year"], 1987)
@@ -86,16 +86,17 @@ class BookAPITests(APITestCase):
 
         # Valid create
         payload = {"title": "Song of Solomon", "publication_year": 1977, "author": self.author1.id}
-        resp = self.client.post(url, payload, format="json")
-        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Book.objects.filter(title__icontains="Solomon").count(), 1)
+        response = self.client.post(url, payload, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        # prove body shape using response.data
+        self.assertEqual(response.data["title"], "Song of Solomon")
 
         # Invalid: future year
         future = date.today().year + 1
         bad = {"title": "Time Machine 2", "publication_year": future, "author": self.author1.id}
-        resp = self.client.post(url, bad, format="json")
-        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("publication_year", resp.json())
+        bad_response = self.client.post(url, bad, format="json")
+        self.assertEqual(bad_response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("publication_year", bad_response.data)
 
     # ---------- Update
     def test_update_book_requires_auth(self):
