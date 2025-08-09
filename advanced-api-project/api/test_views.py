@@ -16,13 +16,13 @@ from datetime import date
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.test import TestCase
-from rest_framework.test import APIClient
+from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
 
 from .models import Author, Book
 
 
-class BookAPITests(TestCase):
+class BookAPITests(APITestCase):
     @classmethod
     def setUpTestData(cls):
         # Users
@@ -191,3 +191,6 @@ class BookAPITests(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         titles_desc = [b["title"] for b in resp.json()]
         self.assertEqual(titles_desc, ["Jazz", "Beloved", "Things Fall Apart"])
+        
+    def setUp(self):
+        self.client = APIClient()     
