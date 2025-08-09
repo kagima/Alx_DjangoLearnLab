@@ -51,6 +51,18 @@ class BookAPITests(APITestCase):
     def _auth(self):
         """Authenticate the client as a valid user."""
         self.client.force_authenticate(user=self.user)
+        
+    def test_session_login_and_read_list(self):
+        """Prove we can log in via session auth (uses the separate test DB)."""
+        logged_in = self.client.login(username="tester", password="pass1234")
+        self.assertTrue(logged_in)
+
+        url = reverse("book-list")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Clean up session for isolation
+        self.client.logout()    
 
     # ---------- Read: List & Detail
     def test_list_books_public(self):
