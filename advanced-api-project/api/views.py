@@ -5,63 +5,46 @@ from rest_framework.exceptions import ValidationError
 from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import BookFilter
 
 
 # Book List View and permissions
 class BookListView(generics.ListAPIView):
-    """Read-only endpoint that lists all books.
-    Permission:
-    - AllowAny (public read).
-    Customizations:
-    - Query params:
-        ?year=YYYY                 -> exact publication year
-        ?year_min=YYYY&year_max=YYYY -> inclusive range
-        ?author=<id>               -> filter by author id
-        ?author_name=substring     -> case-insensitive author name match
-        ?search=...                -> title/author name search (DRF SearchFilter)
-        ?ordering=publication_year -> sort by year (prefix with '-' for desc)
-    - Adds select_related('author') to cut DB queries when including author ids.   
     """
+        Read-only endpoint listing books with rich query capabilities.
+
+        Filtering (django-filter):
+        - ?title=<substring>               (icontains on title)
+        - ?author=<id>                     (exact author id)
+        - ?author_name=<substring>         (icontains on Author.name)
+        - ?publication_year=YYYY
+        - ?year_min=YYYY&year_max=YYYY     (inclusive range)
+
+        Search (DRF SearchFilter):
+        - ?search=<text> over: title, author name
+
+        Ordering (DRF OrderingFilter):
+        - ?ordering=publication_year       (prefix with '-' for desc)
+        - You can order by ANY model field (ordering_fields='__all__').
+
+        Examples:
+        /api/books/?author_name=toni&year_min=1970&year_max=1995&search=beloved&ordering=-publication_year
+    """
+    queryset = Book.objects.select_related("author").all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['title', 'author__name']
-    ordering_fields = ['publication_year', 'title', 'id']
-    ordering = ['title']
     
-    def get_queryset(self):
-        qs = Book.objects.select_related('author').all()
-        
-        year = self.request.query_params.get('year')
-        year_min = self.request.query_params.get('year_min')
-        year_max = self.request.query_params.get('year_max')
-        author = self.request.query_params.get('author')
-        author_name = self.request.query_params.get('author_name')
-        
-        if year:
-            try:
-                qs = qs.filter(publication_year=int(year))
-            except ValueError:
-                raise ValidationError({"year": "Year must be an integer (YYYY)."})
-        
-        if year_min or year_max:
-            try:
-                if year_min:
-                    qs = qs.filter(publication_year__gte=int(year_min))
-                if year_max:
-                    qs = qs.filter(publication_year__lte=int(year_max))
-            except ValueError:
-                raise ValidationError({"year": "year_min/year_max must be integers."})
-            
-        if author:
-            try:
-                qs = qs.filter(author_id=int(author))
-            except ValueError:
-                raise ValidationError({"author": "author must be an integer (author id)."})
-            
-        if author_name:
-            qs = qs.filter(author__name__icontains=author_name)
-        return qs
+     # Backends: django-filter + built-in search/ordering
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_class = BookFilter
+    
+    # Search across title and related author name
+    search_fields = ["title", "author__name"]
+    
+    # Allow ordering by any model field (title, publication_year, id, etc.)
+    ordering_fields = "__all__"
+    ordering = ["title"]
     
 # Class for book detail view
 class BookDetailView(generics.RetrieveAPIView):

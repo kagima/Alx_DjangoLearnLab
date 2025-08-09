@@ -1,35 +1,17 @@
-# DRF Generic Views for Book
+## Filtering, Searching, and Ordering
 
-This project uses Django REST Framework generic views to provide granular CRUD endpoints for the `Book` model.
+### Filtering (django-filter)
+- `?title=<substring>` — icontains on title
+- `?author=<id>` — exact author id
+- `?author_name=<substring>` — icontains on related Author.name
+- `?publication_year=YYYY`
+- `?year_min=YYYY&year_max=YYYY` — inclusive range on publication_year
 
-## Endpoints
+### Search (SearchFilter)
+- `?search=<text>` matches `title` and `author__name`.
 
-- `GET /api/books/` — **List** all books. Supports:
-  - `?year=YYYY`
-  - `?year_min=YYYY&year_max=YYYY`
-  - `?author=<id>`
-  - `?author_name=<substring>`
-  - `?search=<text>` (title/author name)
-  - `?ordering=publication_year` (prefix `-` for desc)
-- `GET /api/books/<pk>/` — **Detail** for a single book.
-- `POST /api/books/create/` — **Create** (auth required).
-- `PUT/PATCH /api/books/<pk>/update/` — **Update** (auth required).
-- `DELETE /api/books/<pk>/delete/` — **Delete** (auth required).
+### Ordering (OrderingFilter)
+- `?ordering=<field>` or `?ordering=-<field>` for descending.
+- Allowed: **any** model field (we set `ordering_fields = "__all__"`), e.g. `title`, `publication_year`, `id`.
 
-## Permissions
-
-- Read-only for anonymous users (List/Detail).
-- Create/Update/Delete require authentication.
-- Global default (optional) in `settings.py`:
-  `DEFAULT_PERMISSION_CLASSES = [IsAuthenticatedOrReadOnly]`.
-  Create/Update/Delete views still explicitly enforce `IsAuthenticated`.
-
-## Notes
-
-- Business rules (e.g., `publication_year` cannot be in the future) are enforced in `BookSerializer`.
-- Additional view-level guards normalize `title` and ensure it is not blank.
-- `BookListView` allows filtering, search, and ordering without installing `django-filter`.
-
-## Testing
-
-Use the DRF browsable API or curl/Postman. With curl, pass `-u <user>:<pass>` for write operations.
+**Examples**
