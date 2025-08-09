@@ -75,7 +75,7 @@ class BookCreateView(generics.CreateAPIView):
     
     @transaction.atomic
     def perform_create(self, serializer):
-        title = (self.request.data.ge("title") or "").strip()
+        title = (self.request.data.get("title") or "").strip()
         if not title:
             raise ValidationError({"title": "Title cannot be blank."})
         serializer.save(title=title)
