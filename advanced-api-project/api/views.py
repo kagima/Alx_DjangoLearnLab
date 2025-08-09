@@ -5,6 +5,7 @@ from rest_framework.exceptions import ValidationError
 from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.authentication import BasicAuthentication 
 from .filters import BookFilter
 from django_filters import rest_framework
 
@@ -72,6 +73,7 @@ class BookCreateView(generics.CreateAPIView):
     """
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
+    authentication_classes = [BasicAuthentication]
     
     @transaction.atomic
     def perform_create(self, serializer):
@@ -91,6 +93,7 @@ class BookUpdateView(generics.UpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated] 
+    authentication_classes = [BasicAuthentication]
     
     @transaction.atomic
     def perform_update(self, serializer):
@@ -107,5 +110,6 @@ class BookDeleteView(generics.DestroyAPIView):
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticated]                                                         
+    permission_classes = [IsAuthenticated] 
+    authentication_classes = [BasicAuthentication]                                                        
     
