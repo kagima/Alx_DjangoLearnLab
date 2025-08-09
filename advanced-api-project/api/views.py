@@ -1,9 +1,10 @@
 from  django.db import transaction
 from django.db.models import Q
-from rest_framework import generics, permissions, filters
+from rest_framework import generics, filters
 from rest_framework.exceptions import ValidationError
 from .models import Book
 from .serializers import BookSerializer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
 
 
 # Book List View and permissions
@@ -22,7 +23,7 @@ class BookListView(generics.ListAPIView):
     - Adds select_related('author') to cut DB queries when including author ids.   
     """
     serializer_class = BookSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['title', 'author__name']
     ordering_fields = ['publication_year', 'title', 'id']
@@ -71,7 +72,7 @@ class BookDetailView(generics.RetrieveAPIView):
     """  
     queryset = Book.objects.select_related("author").all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     
 # Class for book creation view
 class BookCreateView(generics.CreateAPIView):
@@ -83,7 +84,7 @@ class BookCreateView(generics.CreateAPIView):
        - Additional server-side guard to ensure title isn't blank after stripping, complementing serializer validation.
     """
     serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     
     @transaction.atomic
     def perform_create(self, serializer):
@@ -102,7 +103,7 @@ class BookUpdateView(generics.UpdateAPIView):
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated] 
+    permission_classes = [IsAuthenticated] 
     
     @transaction.atomic
     def perform_update(self, serializer):
@@ -119,5 +120,5 @@ class BookDeleteView(generics.DestroyAPIView):
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated]                                                         
+    permission_classes = [IsAuthenticated]                                                         
     
