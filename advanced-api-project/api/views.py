@@ -5,8 +5,8 @@ from rest_framework.exceptions import ValidationError
 from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-from django_filters.rest_framework import DjangoFilterBackend
 from .filters import BookFilter
+from django_filters import rest_framework
 
 
 # Book List View and permissions
@@ -36,7 +36,11 @@ class BookListView(generics.ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     
      # Backends: django-filter + built-in search/ordering
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [
+        rest_framework.DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
     filterset_class = BookFilter
     
     # Search across title and related author name
