@@ -16,8 +16,8 @@ urlpatterns = [
     
     # Posts CRUD
     path('posts/', views.PostListView.as_view(template_name='blog/post_list.html'), name='posts'),
-    path('posts/new/', views.PostCreateView.as_view(), name='post-create'),
+    path('post/new/', views.PostCreateView.as_view(), name='post-create'),
     path('posts/<int:pk>/', views.PostDetailView.as_view(), name='post-detail'),
-    path('posts/<int:pk>/update/', views.PostUpdateView.as_view(), name='post-update'),
+    path('post/<int:pk>/update/', views.PostUpdateView.as_view(), name='post-update'),
     path('post/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post-delete'),
 ]
