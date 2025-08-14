@@ -20,7 +20,8 @@ class UserProfileForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
-    tags = forms.CharField(widget=TagWidget(attrs={'class': 'form-control'}))
+    tags = forms.CharField(widget=TagWidget(attrs={'class': 'form-control'}))  # <- direct assignment
+
     class Meta:
         model = Post
         fields = ['title', 'content', 'tags']
