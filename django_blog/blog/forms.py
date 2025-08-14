@@ -42,3 +42,4 @@ class CommentForm(forms.ModelForm):
             'content': 'Your Comment',
         }        
               
+dummy = TagWidget()              
