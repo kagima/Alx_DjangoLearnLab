@@ -14,6 +14,10 @@ urlpatterns = [
     # Blog Management
     path("", views.blog, name='home'),
     
-    # Post
-    path('posts/', views.post, name='posts')
+    # Posts CRUD
+    path('posts/', views.PostListView.as_view(template_name='blog/post_list.html'), name='posts'),
+    path('posts/new/', views.PostCreateView.as_view(), name='post-create'),
+    path('posts/<int:pk>/', views.PostDetailView.as_view(template_name='blog/post_detail.html'), name='post-detail'),
+    path('posts/<int:pk>/edit/', views.PostUpdateView.as_view(), name='post-update'),
+    path('posts/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post-delete'),
 ]
