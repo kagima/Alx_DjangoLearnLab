@@ -20,11 +20,11 @@ class UserProfileForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
+    tags = forms.CharField(widget=TagWidget(attrs={'class': 'form-control'}))
     class Meta:
         model = Post
         fields = ['title', 'content', 'tags']
         widgets = {
-            'tags': TagWidget(attrs={'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
         }
