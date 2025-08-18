@@ -23,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Hash the password and create the user
         password = validated_data.pop('password')
-        user = User.objects.create_user(**validated_data)  # Using create_user to ensure password hashing
+        user = get_user_model().objects.create_user(**validated_data)  # Using create_user to ensure password hashing
         user.set_password(password)
         user.save()
 
