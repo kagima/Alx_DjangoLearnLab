@@ -5,6 +5,7 @@ from .serializers import PostSerializer, CommentSerializer
 from .permissions import IsAuthorOrReadOnly
 from rest_framework import permissions, filters, status
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from rest_framework.views import APIView
 from notifications.models import Notification
@@ -49,12 +50,15 @@ class FeedView(APIView):
 class LikePostView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     
-    def post(self, request, post_id):
-        post = Post.objects.get(post_id)
-        if Like.objects.filter(user=request.user, post=post).exists():
-            return Response({'detail': 'You have already liked this post.'}, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
         
-        like = Like.objects.create(user=request.user, post=post)
+        # Check if the user has already liked the post
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
+        
+        
+        if not created:
+           return Response({"detail": "You have already liked this post."}, status=status.HTTP_400_BAD_REQUEST)
         
         # Create notification for the post author
         notification = Notification.objects.create(
@@ -70,11 +74,15 @@ class LikePostView(APIView):
 class UnlikePostView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     
-    def post(self, request, post_id):
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        
+        # Check if the user has liked the post
         try:
-            like = Like.objects.get(user=request.user, post__id=post_id)
+            like = Like.objects.get(user=request.user, post=post)
+            like.delete()
         except Like.DoesNotExist:
-            return Response({'detail': "You haven't liked this post."}, status=status.HTTP_400_BAD_REQUEST) 
-        like.delete()
-        return Response({'detail': 'Post unliked successfully.'}, status=status.HTTP_200_OK)       
+            return Response({"detail": "You haven't liked this post."}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({"detail": "Post unliked successfully!"}, status=status.HTTP_200_OK)       
                      
