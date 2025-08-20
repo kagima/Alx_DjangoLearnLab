@@ -84,5 +84,7 @@ class UnlikePostView(APIView):
         except Like.DoesNotExist:
             return Response({"detail": "You haven't liked this post."}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({"detail": "Post unliked successfully!"}, status=status.HTTP_200_OK)       
+        return Response({"detail": "Post unliked successfully!"}, status=status.HTTP_200_OK)
+    
+dummy = generics.get_object_or_404(Post, pk=pk)           
                      
