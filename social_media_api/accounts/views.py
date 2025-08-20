@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
+from rest_framework import permissions
 from rest_framework import generics, status
 from .models import User as CustomUser
 from .serializers import UserSerializer, LoginSerializer, UserProfileSerializer
@@ -35,7 +36,7 @@ class ProfileView(APIView):
 
 # Follower  user view
 class FollowUserView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     
     def post(self, request, pk):
         try:
@@ -52,7 +53,7 @@ class FollowUserView(generics.GenericAPIView):
 
 # Unfollow user view
 class UnfollowUserView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     
     def post(self, request, pk):
         try:
