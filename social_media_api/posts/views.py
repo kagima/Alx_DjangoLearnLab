@@ -40,4 +40,5 @@ class FeedView(APIView):
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data) 
 
-dummy = Post.objects.filter(author__in=following_users).order_by('-created_at')                 
+
+dummy = Post.objects.filter(author__in=following_users).order_by('-created_at')  # type: ignore               
