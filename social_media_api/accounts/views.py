@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
-from rest_framework import status
+from rest_framework import generics, status
 from .models import User
 from .serializers import UserSerializer, LoginSerializer, UserProfileSerializer
 
@@ -34,24 +34,36 @@ class ProfileView(APIView):
         return Response(serializer.data)
 
 # Follower  user view
-class FollowUserView(APIView):
+class FollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
     
     def post(self, request, pk):
-        user_to_follow = User.objects.get(pk=pk)
+        try:
+            user_to_follow = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)    
+        
         if user_to_follow == request.user:
             return Response({'error': 'You cannot follow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Add the user to the 'following' list
         request.user.following.add(user_to_follow)
         return Response({'message': f'You are now following {user_to_follow.username}.'}, status=status.HTTP_200_OK)
 
 # Unfollow user view
-class UnfollowUserView(APIView):
+class UnfollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
     
     def post(self, request, pk):
-        user_to_unfollow = User.objects.get(pk=pk)
+        try:
+            user_to_unfollow = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+        
         if user_to_unfollow == request.user:
             return Response({'error': 'You cannot unfollow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Remove the user from the 'following' list
         request.user.following.remove(user_to_unfollow)
         return Response({'message': f'You have unfollowed {user_to_unfollow.username}.'}, status=status.HTTP_200_OK)
     
