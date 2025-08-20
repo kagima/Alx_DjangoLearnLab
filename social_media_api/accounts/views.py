@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 from rest_framework import generics, status
-from .models import User
+from .models import User as CustomUser
 from .serializers import UserSerializer, LoginSerializer, UserProfileSerializer
 
 # User Registration
@@ -39,8 +39,8 @@ class FollowUserView(generics.GenericAPIView):
     
     def post(self, request, pk):
         try:
-            user_to_follow = User.objects.get(pk=pk)
-        except User.DoesNotExist:
+            user_to_follow = CustomUser.objects.get(pk=pk)
+        except CustomUser.DoesNotExist:
             return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)    
         
         if user_to_follow == request.user:
@@ -56,8 +56,8 @@ class UnfollowUserView(generics.GenericAPIView):
     
     def post(self, request, pk):
         try:
-            user_to_unfollow = User.objects.get(pk=pk)
-        except User.DoesNotExist:
+            user_to_unfollow = CustomUser.objects.get(pk=pk)
+        except CustomUser.DoesNotExist:
             return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
         
         if user_to_unfollow == request.user:
