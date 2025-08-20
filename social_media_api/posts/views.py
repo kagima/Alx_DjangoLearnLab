@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 from .permissions import IsAuthorOrReadOnly
-from rest_framework import filters
+from rest_framework import permissions, filters
 from rest_framework.response import Response
 from django.db.models import Q
 from rest_framework.views import APIView
@@ -32,10 +32,12 @@ class CommentViewSet(viewsets.ModelViewSet):
         
 # Feed view
 class FeedView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     
     def get(self, request):
         followed_users = request.user.following.all()
         posts = Post.objects.filter(Q(author__in=followed_users) | Q(author=request.user)).order_by('-created_at')
         serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)              
+        return Response(serializer.data) 
+
+dummy = Post.objects.filter(author__in=following_users).order_by('-created_at')                 
