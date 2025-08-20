@@ -32,3 +32,5 @@ class ProfileView(APIView):
         user = request.user
         serializer = UserProfileSerializer(user)
         return Response(serializer.data)
+
+    
