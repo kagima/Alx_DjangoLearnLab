@@ -86,5 +86,5 @@ class UnlikePostView(APIView):
 
         return Response({"detail": "Post unliked successfully!"}, status=status.HTTP_200_OK)
     
-# dummy = generics.get_object_or_404(Post, pk=pk)           
+dummy = generics.get_object_or_404(Post, pk=pk)           
                      
