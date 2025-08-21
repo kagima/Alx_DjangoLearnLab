@@ -162,4 +162,11 @@ DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 # Activate Django-Heroku
 django_heroku.settings(locals())
 
+# Secure settings
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = True  # Automatically redirect HTTP to HTTPS if using SSL
+
+
 
