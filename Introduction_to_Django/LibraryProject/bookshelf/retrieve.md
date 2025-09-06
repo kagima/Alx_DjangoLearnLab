@@ -1,12 +1,16 @@
 
 ---
 
-### `retrieve.md`
+### **2️⃣ `retrieve.md`** ❌ (fix)
 
 ```markdown
 # Retrieve Book
 
 ```python
 from bookshelf.models import Book
-Book.objects.all()
-# Output: <QuerySet [<Book: 1984 by George Orwell (1949)>]>
+
+# Retrieve the book we created
+book = Book.objects.get(title="1984")
+book
+# Output: <Book: 1984 by George Orwell (1949)>
+
